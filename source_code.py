@@ -14,13 +14,17 @@ class SourceCode:
         self.__number_of_lines = len(self.__file_in_lines)
 
     def check_if_valid(self):
-        for line_index, line in enumerate(self.__file_in_lines):
-            if(self.__is_class(line)):
-                self.check_the_class(line_index)
-            elif(self.__is_function(line)):
-                self.check_the_function(line_index)
-            else:
-                self
+        try:
+            for line_index, line in enumerate(self.__file_in_lines):
+                if(self.__is_class(line)):
+                    self.check_the_class(line_index)
+                elif(self.__is_function(line)):
+                    self.check_the_function(line_index)
+                else:
+                    self.__check_other_options(line)
+        except ValueError:
+            raise ValueError('Something is not valid in your source code')
+
             #splited_line = line.split()
             #for elem in splited_line:
 
@@ -41,7 +45,7 @@ class SourceCode:
         if(self.__check_if_variable(line)):
             return True
         else:
-            return False
+            raise ValueError('Unrecognizable line')
 
     def __is_function(self, line):
         return re.search("^ *def [a-z]*", line)
@@ -51,19 +55,20 @@ class SourceCode:
 
     def __check_if_variable(self, line):
         # Checking for int or float var
-        if re.search("^\s*[a-z]+,?[a-z]*\s*=\s*[\d]+[.]*[\d]*",line):
+        a = re.match("^\s*[a-z]+,?[a-z]*\s*=\s*[\d]+[.]*[\d]*[\s]*$",line)
+        if a:
             return True
         # Checking for empty array or hash
         # TODO add non empty support
-        elif re.search("^\s*[a-z]+,?[a-z]*\s*=\s*[\{\[][\]\}]",line):
+        elif re.search("^\s*[a-z]+,?[a-z]*\s*=\s*[\{\[][\]\}][\s]*$",line):
             return True
         #Checking for a string empty or non empty
         elif re.search('^\s*[a-z]+,?[a-z]*\s*=\s*([\'].*[\'])|([\"].*[\
-"])',line):
+"])[\s]*$',line):
             return True
         else:
             # TODO add Error handeling
-            pass
+            return False
     #*** Private attributes return ***#
 
     #def ends_needed_to_be_closed(self): #Not sure if I will use it

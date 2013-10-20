@@ -27,4 +27,8 @@ print("Your file name is", ruby_file_name)
 file_as_a_string = FileManager.read_file('')
 
 source_code = SourceCode(file_as_a_string)
-source_code.check_if_valid()
+try:
+    source_code.check_if_valid()
+    print("Everything looks great in your source code")
+except ValueError as e:
+    print(e)
