@@ -55,8 +55,7 @@ class SourceCode:
 
     def __check_if_variable(self, line):
         # Checking for int or float var
-        a = re.match("^\s*[a-z]+,?[a-z]*\s*=\s*[\d]+[.]*[\d]*[\s]*$",line)
-        if a:
+        if self.__check_if_assining_int_or_dec(line):
             return True
         # Checking for empty array or hash
         # TODO add non empty support
@@ -69,6 +68,24 @@ class SourceCode:
         else:
             # TODO add Error handeling
             return False
+
+    def __check_if_assining_int_or_dec(self, line):
+        splited_line = line.split("=")
+        if len(splited_line) == 2:
+            if self.__check_first_of_assining(splited_line[0]):
+                if self.__is_dec_or_int(splited_line[1]):
+                    return True
+        return False
+
+    def __is_dec_or_int(self, line):
+        return re.match("^\s*[\d]+[.]*[\d]*[\s]*$", line)
+
+    def __check_first_of_assining(self, line):
+        return re.match("^\s*[a-z]+,?[a-z]*\s*", line)
+
+    def __check_if_string(self, incoming):
+        return re.match("^\s*([\'].*[\'])|([\"].*[\"])[\s]*$", incoming)
+
     #*** Private attributes return ***#
 
     #def ends_needed_to_be_closed(self): #Not sure if I will use it
