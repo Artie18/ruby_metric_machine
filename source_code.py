@@ -8,23 +8,34 @@ class SourceCode:
     __ends_needed_to_be_closed = []
     __number_of_lines = 0
     __file_in_lines = ''
+    __valid = False
+    __file_as_string = ''
 
     def __init__(self, file_as_a_string):
+        self.__file_as_string = file_as_a_string
         self.__file_in_lines = file_as_a_string.split('\n;')
         self.__number_of_lines = len(self.__file_in_lines)
 
-    def check_if_valid(self):
-        try:
-            for line_index, line in enumerate(self.__file_in_lines):
-                if(self.__is_class(line)):
-                    self.check_the_class(line_index)
-                elif(self.__is_function(line)):
-                    self.check_the_function(line_index)
-                else:
-                    self.__check_other_options(line)
-        except ValueError:
-            raise ValueError('Something is not valid in your source code')
+    def is_valid(self):
+        # return __valid # will return if we finish validator
+        return True
 
+    def file_as_string(self):
+        return self.__file_as_string
+
+    def check_if_valid(self):
+        return True
+        #try:
+        #    for line_index, line in enumerate(self.__file_in_lines):
+        #        if(self.__is_class(line)):
+        #            self.check_the_class(line_index)
+        #        elif(self.__is_function(line)):
+        #            self.check_the_function(line_index)
+        #        else:
+        #            self.__check_other_options(line)
+        #except ValueError:
+        #    raise ValueError('Something is not valid in your source code')
+        #
             #splited_line = line.split()
             #for elem in splited_line:
 
