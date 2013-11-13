@@ -1,5 +1,8 @@
 *.py[cod]
 
+#test files
+ruby_test_scripts
+
 # C extensions
 *.so
 
