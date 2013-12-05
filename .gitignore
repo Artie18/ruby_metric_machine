@@ -2,6 +2,7 @@
 
 #test files
 ruby_test_scripts
+rails_test_scripts
 
 # C extensions
 *.so

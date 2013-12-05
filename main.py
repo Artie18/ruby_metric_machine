@@ -22,7 +22,7 @@ all_ruby_files = FileManager.get_all_ruby_files_from_dir()
 for index, file in enumerate(all_ruby_files):
     print(index + 1,")",file)
 
-ruby_file_name = all_ruby_files[int(raw_input("Choose your file:")) - 1]
+ruby_file_name = all_ruby_files[int(input("Choose your file:")) - 1]
 
 print("Your file name is", ruby_file_name)
 
