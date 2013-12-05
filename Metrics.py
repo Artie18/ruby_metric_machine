@@ -6,7 +6,7 @@ import re
 from source_code import SourceCode
 
 
-class Metric:
+class Metric(object):
     __source_code = 0 # used for source_code object
 
     def __init__(self, source_code):

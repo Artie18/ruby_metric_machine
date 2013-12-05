@@ -1,4 +1,3 @@
-from Tools.Scripts.treesync import raw_input
 from file_manager import FileManager
 from source_code import SourceCode
 from MetricsFabric import MetricsFabric
@@ -39,5 +38,5 @@ try:
         metric = MetricsFabric.create_metric(current_metric_name,source_code)
         final_result = metric.get_metric_result_as_string() # common method that is used by all metrics
         print(final_result)
-except Exception:
-    print('Something went wrong, please check your source file')
+except Exception as e:
+    print('Something went wrong, please check your source file',e )
