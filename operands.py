@@ -29,6 +29,17 @@ def find_with_compare_operators(source_as_string):
                 operands.append(current[1].group(2))
     return operands
 
+def find_with_one_way_assing_operators(source_as_string):
+    ASSING_OPERATORS = ['\+=','\-=','\*=','/=', '\*\*=','%=',
+                          '\*\*','=','\+','\*','/','-','<<','%',]
+    operands = []
+    for operator in ASSING_OPERATORS:
+        pattern = '(^|\n)([a-zA-Z][a-zA-Z\d]*)\s*' + operator + '\s*(.+)($|\n)'
+        match = re.finditer(pattern,source_as_string)
+        for current in enumerate(match):
+            operands.append(current[1].group(1))
+            operands.append(current[1].group(2))
+    return operands
 
 
 def find_with_assing_operators(source_as_string):
