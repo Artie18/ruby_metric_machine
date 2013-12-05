@@ -30,10 +30,10 @@ class ChepinMetric(Metric):
 
         def __all_vars_for_output_count(self):
             count = 0
-            match = re.findall('(^|\n)?\s*(print|puts)\s+([a-zA-Z]*[a-zA-Z\d]+)',
+            match = re.findall('(^|\n)?\s*(print|puts|p)\s+([a-zA-Z]*[a-zA-Z\d]+)',
                                self._Metric__source_code._SourceCode__file_as_string)
             count += match.__len__()
-            match = re.findall('(^|\n)?\s*(print|puts)\s*\(+\s*([a-zA-Z][a-zA-Z\d]+)\s*\)',
+            match = re.findall('(^|\n)?\s*(print|puts|p)\s*\(+\s*([a-zA-Z][a-zA-Z\d]+)\s*\)',
                                self._Metric__source_code._SourceCode__file_as_string)
             count += match.__len__()
             return count
@@ -77,7 +77,7 @@ class ChepinMetric(Metric):
             return usless_var_count
 
         def __find_all_assignings(self):
-            match = re.findall('(^|\n)\s*([a-zA-Z][a-zA-Z\d]*)\s*=\s*.+($|\n)',
+            match = re.findall('(^|\n)\s*((@+)?[a-zA-Z][a-zA-Z\d]*)\s*=\s*.+($|\n)',
                                self._Metric__source_code._SourceCode__file_as_string)
             return len(match)
         def __find_all_p(self):

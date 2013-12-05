@@ -18,7 +18,7 @@ class HosltedaMetrics(Metric):
 
     __program_dictionary            = 0
     __program_length                = 0
-    __program_coding_quality        = 0
+    __program_coding_quality        = 0.0
     __program_coding_laboriousness  = 0
     __program_volume                = 0
 
@@ -26,22 +26,24 @@ class HosltedaMetrics(Metric):
             super(HosltedaMetrics, self).__init__(source_code)
 
     def __generate_result(self):
-        return {
+        result = {
             "Total operators"       : self.__total_operators                ,
             "Unique operators"      : len(self.__unique_operators)          ,
             "Total operands"        : self.__total_operands                 ,
             "Unique operands"       : len(self.__unique_operands)           ,
             "Program Dictionary"    : self.__program_dictionary             ,
             "Program Length"        : self.__program_length                 ,
-            "Program Quality"       : self.__program_coding_quality         ,
-            "Program Laboriousness" : self.__program_coding_laboriousness   ,
-            "Program Volume"        : self.__program_volume
+            "Program Volume"        : self.__program_volume                 ,
+            "Program Difficulty"    : self.__program_difficulty             ,
+            "Effort"                : self.__effort
         }
+        return result
 
     def __count_operands(self):
         results = operands_count(self._Metric__source_code._SourceCode__file_as_string)
         self.__unique_operands  = results["unique_operants"]
         self.__total_operands   = results["total_operands_count"]
+        results = None
 
     def __count_operators_statistic(self):
         cleaned_code = self._Metric__source_code._SourceCode__file_as_string
@@ -53,14 +55,21 @@ class HosltedaMetrics(Metric):
                 self.__unique_operators.append(operator)
 
     def __get_final_result(self):
+        self.__unique_operators = []
         self.__count_operators_statistic()
         self.__count_operands()
         self.__program_length  = self.__total_operands + self.__total_operators
         self.__program_dictionary = len(self.__unique_operands) + len(self.__unique_operators)
-        self.__program_coding_quality = \
-            (2 * len(self.__unique_operands)) / (len(self.__unique_operators * self.__total_operands))
-        self.__program_coding_laboriousness = 1 / self.__program_coding_quality
+        #self.__program_coding_quality = \
+            #(2 * len(self.__unique_operands)) / float((len(self.__unique_operators) * self.__total_operands)) // VOLUME'/VOLUME
+        try:
+            self.__program_difficulty = (len(self.__unique_operators) / 2) * (self.__total_operands / len(self.__unique_operands))
+            self.__effort = self.__program_difficulty * self.__program_volume
+        except ZeroDivisionError:
+            print "Not enough data to process"
+        #self.__program_coding_laboriousness = 1 / self.__program_coding_quality
         self.__program_volume = self.__program_length * math.log(self.__program_dictionary, 2)
+
         return self.__generate_result()
 
     def get_metric_result_as_string(self):

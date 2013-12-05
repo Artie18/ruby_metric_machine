@@ -1,25 +1,11 @@
-def comparesArray(xmlPath,arrExDB,arrRtXML,modName,msg,remarks)
-  begin
-    $write.log("Info","Inside comparesArray method from ********.rb")
-    if arrExDB.sort == arrRtXML.sort
-      qcode = ""
-      arrRtXML.each{|x| qcode = qcode+x+","}
-      qcode = qcode
-      @objXLResult.writePassResults($rowCounter,$rowCounter-1,modName,msg,xmlPath,qcode.chomp(","),qcode.chomp(","),remarks)
-    else
-      arrRt =arrRtXML-arrExDB
-      strRt =""
-      arrRt.each{|x|     
-        strRt = strRt+x+",\n"
-      }
-      arrEx =arrExDB-arrRtXML
-      strEx =""
-      arrEx.each{|x|      
-        strEx = strEx+x+",\n"
-      }
-      @objXLResult.writeFailResults($rowCounter,$rowCounter-1,modName,msg,xmlPath,strEx.chomp(","),strRt.chomp(","),"Does not Match - #{remarks}")
-    end
-  rescue Exception => e1
-    $write.log("Exception"," Problem from comparesArray method from ********.rb. System = #{e1.to_s}")
-  end 
-end
+def for_set_permissions
+    permissions = Abt::AccessControl.permissions
+    permissions = Abt::AccessControl.user_permissions      if self.builtin == BUILTIN_USER
+    permissions = Abt::AccessControl.manager_permissions   if self.builtin == BUILTIN_MANAGER
+    permissions = Abt::AccessControl.architect_permissions if self.builtin == BUILTIN_ARCHITECT
+    permissions = Abt::AccessControl.designer_permissions  if self.builtin == BUILTIN_DESIGNER
+    permissions = Abt::AccessControl.customer_permissions  if self.builtin == BUILTIN_CUSTOMER
+    permissions = Abt::AccessControl.vendor_permissions    if self.builtin == BUILTIN_VENDOR
+    permissions = Abt::AccessControl.dealer_permissions    if self.builtin == BUILTIN_DEALER
+    permissions - Abt::AccessControl.public_permissions
+  end
