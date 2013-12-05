@@ -43,8 +43,7 @@ try:
         while 1:
             for index, metric in enumerate(METRICS):
                 print(index + 1, metric)
-            current_metric_name = METRICS[int(raw_input("Choose your metric:")) - 1]
-        current_metric_name = METRICS[int(input("Choose your metric:")) - 1]
+            current_metric_name = METRICS[int(input("Choose your metric:")) - 1]
             metric = MetricsFabric.create_metric(current_metric_name,source_code)
             final_result = metric.get_metric_result_as_string() # common method that is used by all metrics
             print(final_result)
