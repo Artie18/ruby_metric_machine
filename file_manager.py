@@ -26,14 +26,21 @@ class FileManager:
     @classmethod
     def __read_files(self, dir_name, results):
         os.chdir(dir_name)
-        for dirpath, dirnames, filenames in os.walk('.'):
-            for dir in dirnames:
-                if dir != "views":
-                    results += self.__read_files(dir, results)
-            filenames = os.listdir('.')
-            for filename in [f for f in filenames if f.endswith(".rb")]:
-                results += (open(os.path.abspath(filename), 'r').read())
-        os.chdir('..')
+        for root, sub_folder, files in os.walk('.'):
+
+            for filename in files:
+                if filename.endswith(".rb"):
+                    filePath = os.path.join(root, filename)
+                    with open( filePath, 'r' ) as f:
+                        results += f.read()
+
+        #    for dir in dirnames:
+        #        if dir != "views":
+        #            results += self.__read_files(dir, results)
+        #    filenames = os.listdir('.')
+        #    for filename in [f for f in filenames if f.endswith(".rb")]:
+        #        results += (open(os.path.abspath(filename), 'r').read())
+        #os.chdir('..')
         return results
 
     @classmethod
