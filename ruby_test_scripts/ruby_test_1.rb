@@ -1,4 +1,5 @@
 def for_set_permissions
+    temp =[]
     permissions = Abt::AccessControl.permissions
     permissions = Abt::AccessControl.user_permissions      if self.builtin == BUILTIN_USER
     permissions = Abt::AccessControl.manager_permissions   if self.builtin == BUILTIN_MANAGER

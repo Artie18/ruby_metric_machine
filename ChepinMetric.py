@@ -45,33 +45,34 @@ class ChepinMetric(Metric):
 
         def __all_vars_assinged_to_string_in_source_count(self):
             count = 0
-            match = re.findall('(^|\n)[a-zA-Z][a-zA-Z\d]*\s=\s(\'.*\')($|\n)',
+            match = re.findall('(^|\n)[a-zA-Z][a-zA-Z\d]*\s?=\s?(\'.*\')($|\n)',
                                self._Metric__source_code._SourceCode__file_as_string)
             count += match.__len__()
-            match = re.findall('(^|\n)\s*[a-zA-Z][a-zA-Z\d]*\s=\s(\".*\")($|\n)',
+            match = re.findall('(^|\n)\s*[a-zA-Z][a-zA-Z\d]*\s?=\s?(\".*\")($|\n)',
                                self._Metric__source_code._SourceCode__file_as_string)
             count += match.__len__()
             return count
 
         def __all_vars_assinged_count(self):
-            match = re.findall('(^|\n)\s*[a-zA-Z][a-zA-Z\d]*\s=\s.+($|\n)',
+            match = re.findall('(^|\n)\s*[a-zA-Z][a-zA-Z\d]*\s?=\s?.+($|\n)',
                                self._Metric__source_code._SourceCode__file_as_string)
             return match.__len__()
 
         def __all_vars_that_are_useless_count(self):
             usless_var_count = 0
-            match = re.finditer('(^|\n)\s*([a-zA-Z][a-zA-Z\d])*\s=\s(.)+($|\n)',
+            match = re.findall('(^|\n)\s*([a-zA-Z][a-zA-Z\d])*\s?=\s?(.)+($|\n)',
                                 self._Metric__source_code._SourceCode__file_as_string)
-            for cur in enumerate(match):
-                cur_var = cur[1].group(2)
+
+            for cur in match:
+                cur_var = cur[1]
                 pattern = '(^|\n)?\s*'+ cur_var +'\s+'
-                match = re.findall(pattern,
+                match_all = re.findall(pattern,
                                    self._Metric__source_code._SourceCode__file_as_string)
-                all_current_var = match.__len__()
-                pattern = '(^|\n)' + cur_var + '\s=\s(.)+($|\n)'
-                match = re.findall(pattern,
+                all_current_var = match_all.__len__()
+                pattern = '(^|\n)' + cur_var + '\s?=\s?(.)+($|\n)'
+                match_unused = re.findall(pattern,
                                    self._Metric__source_code._SourceCode__file_as_string)
-                all_useless_var = match.__len__()
+                all_useless_var = match_unused.__len__()
                 if all_current_var - all_useless_var  > 0:
                     usless_var_count += 1
             return usless_var_count

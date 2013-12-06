@@ -60,6 +60,8 @@ class HosltedaMetrics(Metric):
         self.__count_operands()
         self.__program_length  = self.__total_operands + self.__total_operators
         self.__program_dictionary = len(self.__unique_operands) + len(self.__unique_operators)
+        self.__program_volume = self.__program_length * math.log(self.__program_dictionary, 2)
+
         #self.__program_coding_quality = \
             #(2 * len(self.__unique_operands)) / float((len(self.__unique_operators) * self.__total_operands)) // VOLUME'/VOLUME
         try:
@@ -68,7 +70,6 @@ class HosltedaMetrics(Metric):
         except ZeroDivisionError:
             print "Not enough data to process"
         #self.__program_coding_laboriousness = 1 / self.__program_coding_quality
-        self.__program_volume = self.__program_length * math.log(self.__program_dictionary, 2)
 
         return self.__generate_result()
 
