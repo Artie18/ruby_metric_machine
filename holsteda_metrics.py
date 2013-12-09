@@ -9,7 +9,8 @@ class HosltedaMetrics(Metric):
 
     OPERATORS = [ '===','<==>','==','+=','-=','*=','/=',
                   '>=','**=','%=','<=','!=','**','=','+','*',
-                  '/','-','<<','%','<','>','.eql?','.equal?' ]
+                  '/','-','<<','%','<','>','.eql?','.equal?', '|', '!', '^', '~', '>>',
+                  'and', '&&', '||', 'not']
 
     __total_operators           = 0
     __total_operands            = 0
@@ -47,12 +48,12 @@ class HosltedaMetrics(Metric):
 
     def __count_operators_statistic(self):
         cleaned_code = self._Metric__source_code._SourceCode__file_as_string
-        for operator in self.OPERATORS:
-            operators_count = cleaned_code.count(operator)
-            if operators_count > 0:
-                cleaned_code = cleaned_code.replace(operator, " ")
-                self.__total_operators += operators_count
-                self.__unique_operators.append(operator)
+        pattern = "(-|\*|\*\*|%|\+|<=|>=|!=|=|>|<|<=>|===|==|\sand\s|\sor\s|eql|equal|\*=|/=|%=|\*\*=|-=|\+=|&&|\|\||!|\snot\s+)"
+        match = re.findall(pattern, cleaned_code)
+        self.__total_operators = len(match)
+        for operator in match:
+            if not operator in self.__unique_operators:
+                self.__unique_operators.append(operator.strip())
 
     def __get_final_result(self):
         self.__unique_operators = []

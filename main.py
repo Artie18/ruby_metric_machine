@@ -20,20 +20,20 @@ print("Choose between project and ruby")
 print("Please choose one of the presents files:")
 print("1) File")
 print("2) Project")
-type_value = int(input("Make a choise"))
+type_value = int(input("Make a choise: "))
 if type_value == 2:
     input_value = FileManager.get_all_rails_projects_from_dir()
     for index, file in enumerate(input_value):
-        print(index + 1,")",file)
+        print("%d) " + file) % (index + 1)
     rails_project_name = input_value[int(input("Choose your project name:")) - 1]
-    print("Your file name is", rails_project_name)
+    print("Your file name is " + rails_project_name)
     file_as_a_string = FileManager.get_ruby_source_code_from_project(rails_project_name)
 elif type_value == 1:
     input_value = FileManager.get_all_ruby_files_from_dir()
     for index, file in enumerate(input_value):
-        print(index + 1,")",file)
+        print("%d) " + file) %(index + 1)
     ruby_file_name = input_value[int(input("Choose your file:")) - 1]
-    print("Your file name is", ruby_file_name)
+    print("Your file name is ", ruby_file_name)
     file_as_a_string = FileManager.read_file(ruby_file_name)
 
 try:

@@ -59,7 +59,7 @@ class ChepinMetric(Metric):
             return match.__len__()
 
         def __all_vars_that_are_useless_count(self):
-            usless_var_count = 0
+            usless_var_count = i = 0
             match = re.findall('(^|\n)\s*([a-zA-Z][a-zA-Z\d])*\s?=\s?(.)+($|\n)',
                                 self._Metric__source_code._SourceCode__file_as_string)
 
@@ -73,7 +73,7 @@ class ChepinMetric(Metric):
                 match_unused = re.findall(pattern,
                                    self._Metric__source_code._SourceCode__file_as_string)
                 all_useless_var = match_unused.__len__()
-                if all_current_var - all_useless_var  > 0:
+                if all_current_var - all_useless_var > 0:
                     usless_var_count += 1
             return usless_var_count
 
@@ -96,11 +96,11 @@ class ChepinMetric(Metric):
 
         def __generate_result(self):
             return {
-                "Chepin Result" : self.A1 * self.__p + self.A2 * self.__m + self.A4 * self.__t ,
-                "P" : self.__p ,
-                "M" : self.__m ,
-                "C" : self.__c ,
-                "T" : self.__t ,
+                "Chepin Result": self.A1 * self.__p + self.A2 * self.__m + self.A4 * self.__t ,
+                "P": self.__p,
+                "M": self.__m,
+                "C": self.__c,
+                "T": self.__t,
             }
 
         def __get_final_result(self):

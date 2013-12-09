@@ -12,7 +12,7 @@ class SourceCode:
     __file_as_string = ''
 
     def __init__(self, file_as_a_string):
-        self.__file_as_string = file_as_a_string
+        self.__file_as_string = re.sub("#.+\n","",file_as_a_string)
         self.__file_in_lines = file_as_a_string.split('\n;')
         self.__number_of_lines = len(self.__file_in_lines)
 

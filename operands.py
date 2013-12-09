@@ -23,11 +23,11 @@ def find_with_compare_operators(source_as_string):
     operands = []
     for operator in COMPARE_OPERATORS:
             pattern = '\s*([a-zA-Z][a-zA-Z\d]*)\s*' + operator + '\s*([a-zA-Z][a-zA-Z\d]*)(\s*|$|\n)'
-            match = re.finditer(pattern,source_as_string)
+            match = re.findall(pattern, source_as_string)
             for current in match:
                 try:
-                    operands.append(current.group(1))
-                    operands.append(current.group(2))
+                    operands.append(current[0])
+                    operands.append(current[1])
                 except Exception as e:
                     print e
     return operands
@@ -37,7 +37,7 @@ def find_with_one_way_assing_operators(source_as_string):
                           '\*\*','=','\+','\*','/','-','<<','%',]
     operands = []
     for operator in ASSING_OPERATORS:
-        pattern = '(^|\n)([a-zA-Z][a-zA-Z\d]*)\s*' + operator + '\s*(.+)($|\n)'
+        pattern = '(^|\n)([a-zA-Z][a-zA-Z\d]*)\s*' + operator + '\s*([a-zA-Z][a-zA-Z\d]*)(\s*|$|\n)'
         match = re.finditer(pattern,source_as_string)
         for current in enumerate(match):
             operands.append(current[1].group(1))
