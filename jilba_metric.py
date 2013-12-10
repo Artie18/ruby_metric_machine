@@ -22,7 +22,7 @@ class JilbaMetric(Metric):
             self.__while_count += re.findall('(^|\n)\s*while(\s+|\().+(\s+|\)|\n|$)',
                                           self._Metric__source_code._SourceCode__file_as_string).__len__()
     def __find_each_map_count(self):
-            self.__each_map_count += re.findall('(^|\n)\s*([a-zA-Z][a-zA-Z\d]*)\.(each|map)(\s+do|\s*\{)',
+            self.__each_map_count += re.findall('(^|\n)\s*([a-zA-Z][a-zA-Z\d]*)\.(each|map)',
                                             self._Metric__source_code._SourceCode__file_as_string).__len__()
 
     def __generate_result(self):

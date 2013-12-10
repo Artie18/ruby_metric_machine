@@ -62,7 +62,6 @@ class ChepinMetric(Metric):
             usless_var_count = i = 0
             match = re.findall('(^|\n)\s*([a-zA-Z][a-zA-Z\d])*\s?=\s?(.)+($|\n)',
                                 self._Metric__source_code._SourceCode__file_as_string)
-
             for cur in match:
                 cur_var = cur[1]
                 pattern = '(^|\n)?\s*'+ cur_var +'\s+'

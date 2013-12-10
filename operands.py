@@ -12,6 +12,7 @@ Return:
 def operands_count(source_as_string):
     operands = find_with_compare_operators(source_as_string) + find_with_assing_operators(source_as_string)
     operands += find_with_eql_operators(source_as_string)
+    operands += find_with_one_way_assing_operators(source_as_string)
     return {
         "unique_operants"       : set(operands),
         "total_operands_count"  : len(operands)
@@ -34,14 +35,14 @@ def find_with_compare_operators(source_as_string):
 
 def find_with_one_way_assing_operators(source_as_string):
     ASSING_OPERATORS = ['\+=','\-=','\*=','/=', '\*\*=','%=',
-                          '\*\*','=','\+','\*','/','-','<<','%',]
+                          '\*\*','=','\+','\*','/','-','<<','%']
     operands = []
     for operator in ASSING_OPERATORS:
-        pattern = '(^|\n)([a-zA-Z][a-zA-Z\d]*)\s*' + operator + '\s*([a-zA-Z][a-zA-Z\d]*)(\s*|$|\n)'
+        pattern = '(.*)\s*' + operator + '\s*(.*)'
         match = re.finditer(pattern,source_as_string)
         for current in enumerate(match):
-            operands.append(current[1].group(1))
-            operands.append(current[1].group(2))
+            operands.append(current[1].group(1).strip())
+            operands.append(current[1].group(2).strip())
     return operands
 
 
@@ -50,11 +51,11 @@ def find_with_assing_operators(source_as_string):
                           '\*\*','=','\+','\*','/','-','<<','%',]
     operands = []
     for operator in ASSING_OPERATORS:
-        pattern = '(^|\n)([a-zA-Z][a-zA-Z\d]*)\s*' + operator + '\s*([a-zA-Z][a-zA-Z\d]*)($|\n)'
+        pattern = '(.*)\s*' + operator + '(.*)\s*'
         match = re.finditer(pattern,source_as_string)
         for current in enumerate(match):
-            operands.append(current[1].group(1))
-            operands.append(current[1].group(2))
+            operands.append(current[1].group(1).strip())
+            operands.append(current[1].group(2).strip())
     return operands
 
 def find_with_eql_operators(source_as_string):

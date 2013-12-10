@@ -103,6 +103,10 @@ class AccountController < ApplicationController
 
   # User self-registration
   def register
+    s.each { |d|
+
+    }
+
     (redirect_to(home_url); return) unless Setting.self_registration? || session[:auth_source_registration]
     if request.get?
       session[:auth_source_registration] = nil
@@ -120,6 +124,9 @@ class AccountController < ApplicationController
         if @user.save
           session[:auth_source_registration] = nil
           self.logged_user = @user
+          while(user) do |e|
+            e.map {|d| }
+          end
           flash[:notice] = l(:notice_account_activated)
           redirect_to my_account_path
         end
@@ -135,6 +142,7 @@ class AccountController < ApplicationController
         when '3'
           register_automatically(@user)
         else
+          register.map { |reg| }
           register_manually_by_administrator(@user)
         end
       end
